@@ -16,44 +16,13 @@
     <br/>
     <br/>
     <div class="container">
-      <div class="row">
-        <div class="col-4">
-          <img :src="movie.photo" class="card-img-top" alt="">
-        </div>
-        <div class="col-8" style="text-align:left;">
-          <h1>{{movie.title}}</h1>
-          <hr/>
-          <h6>{{movie.description}}</h6>
-          <hr/>
-          <p>You can choose to have the movie delivered to your home or you can pick it up at the rental location. (Delivery fee is $5)</p>
-          <div class="form-check">
-            <input v-on:click="isHidden = !isHidden" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Deliver home
-            </label>
-          </div>
-          <form v-if="!isHidden">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Address</label>
-              <input v-model="addr" type="text" class="form-control">
-              <small id="emailHelp" class="form-text text-muted">This is where we'll deliver the movie</small>
+        <div class="row">
+            <div class="col-12">
+                <h1>Thank you for your order!</h1>
+                <h3>We've sent an order confimation on your email.</h3>
             </div>
-          </form>
-          <hr/>
-          <form>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email</label>
-              <input v-model="email" type="email" class="form-control">
-              <small id="emailHelp" class="form-text text-muted">We need this to confirm the rental</small>
-            </div>
-          </form>
-          <br/>
-          <button v-on:click="rentMovie()" class="btn btn-primary">Rent</button>
         </div>
-      </div>
     </div>
-    <br/>
-    <br/>
     <!-- Footer -->
     <!-- <div class="container my-5"> -->
     <footer style="background-color: #deded5; position: fixed; bottom: 0; width: 100%;">
@@ -103,43 +72,14 @@ export default {
   name: 'Movies',
   data () {
     return {
-      movie: Object,
-      isHidden: true,
-      email: String,
-      addr: String
+
     }
   },
   mounted () {
-    this.email = ''
-    this.addr = ''
-    this.$http.get('http://127.0.0.1:8000/api/movies/?search=' + this.$route.params.title).then(res => {
-      this.movie = res.data[0]
-    })
-  },
-  methods: {
-    rentMovie: function () {
-      const data = {email: this.email}
-      this.$http.post('http://127.0.0.1:8000/api/movies/confirmation', data)
-      this.$router.push({'path': 'confirmation'})
-    }
+
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style>
 </style>

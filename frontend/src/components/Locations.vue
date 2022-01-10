@@ -15,45 +15,24 @@
     </nav>
     <br/>
     <br/>
+
     <div class="container">
-      <div class="row">
-        <div class="col-4">
-          <img :src="movie.photo" class="card-img-top" alt="">
-        </div>
-        <div class="col-8" style="text-align:left;">
-          <h1>{{movie.title}}</h1>
-          <hr/>
-          <h6>{{movie.description}}</h6>
-          <hr/>
-          <p>You can choose to have the movie delivered to your home or you can pick it up at the rental location. (Delivery fee is $5)</p>
-          <div class="form-check">
-            <input v-on:click="isHidden = !isHidden" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Deliver home
-            </label>
-          </div>
-          <form v-if="!isHidden">
-            <div class="form-group">
-              <label for="exampleInputEmail1">Address</label>
-              <input v-model="addr" type="text" class="form-control">
-              <small id="emailHelp" class="form-text text-muted">This is where we'll deliver the movie</small>
+        <div class="row">
+            <div class="col-12">
+                <l-map style="height: 500px" :zoom="zoom" :center="center">
+                    <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+                    <l-marker :lat-lng="markerLatLng"></l-marker>
+                </l-map>
             </div>
-          </form>
-          <hr/>
-          <form>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email</label>
-              <input v-model="email" type="email" class="form-control">
-              <small id="emailHelp" class="form-text text-muted">We need this to confirm the rental</small>
-            </div>
-          </form>
-          <br/>
-          <button v-on:click="rentMovie()" class="btn btn-primary">Rent</button>
         </div>
-      </div>
+        <br/>
+        <div class="row">
+            <div class="col-12" style="text-align:left;">
+                <h1>We are located in Piata Victoriei</h1>
+            </div>
+        </div>
     </div>
-    <br/>
-    <br/>
+
     <!-- Footer -->
     <!-- <div class="container my-5"> -->
     <footer style="background-color: #deded5; position: fixed; bottom: 0; width: 100%;">
@@ -99,47 +78,35 @@
 </template>
 
 <script>
+import {LMap, LTileLayer, LMarker} from 'vue2-leaflet'
+import { Icon } from 'leaflet'
 export default {
-  name: 'Movies',
+  components: {
+    LMap,
+    LTileLayer,
+    LMarker
+  },
+  name: 'Locations',
   data () {
     return {
-      movie: Object,
-      isHidden: true,
-      email: String,
-      addr: String
+      url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attribution:
+        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      zoom: 15,
+      center: [45.75372, 21.22571],
+      markerLatLng: [45.75372, 21.22571]
     }
   },
   mounted () {
-    this.email = ''
-    this.addr = ''
-    this.$http.get('http://127.0.0.1:8000/api/movies/?search=' + this.$route.params.title).then(res => {
-      this.movie = res.data[0]
+    delete Icon.Default.prototype._getIconUrl
+    Icon.Default.mergeOptions({
+      iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+      iconUrl: require('leaflet/dist/images/marker-icon.png'),
+      shadowUrl: require('leaflet/dist/images/marker-shadow.png')
     })
-  },
-  methods: {
-    rentMovie: function () {
-      const data = {email: this.email}
-      this.$http.post('http://127.0.0.1:8000/api/movies/confirmation', data)
-      this.$router.push({'path': 'confirmation'})
-    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style>
 </style>

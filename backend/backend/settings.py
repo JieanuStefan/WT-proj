@@ -114,7 +114,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'rentamovieproject@gmail.com'
+EMAIL_HOST_PASSWORD = 'movie_rent_1234'
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+CSRF_COOKIE_SECURE = False
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 

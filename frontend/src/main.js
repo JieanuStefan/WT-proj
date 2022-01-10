@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet'
+import 'leaflet/dist/leaflet.css'
 
 // Import Bootstrap an BootstrapVue CSS files
 import 'bootstrap/dist/css/bootstrap.css'
@@ -12,6 +14,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // Importing axios into app
 Vue.prototype.$http = axios
+
+Vue.component('l-map', LMap)
+Vue.component('l-tile-layer', LTileLayer)
+Vue.component('l-marker', LMarker)
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)

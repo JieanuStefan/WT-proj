@@ -7,5 +7,6 @@ router = routers.DefaultRouter()
 router.register(r'', views.MovieViewSet)
 
 urlpatterns = [
+    path('confirmation', views.email_conf),
     path('', include(router.urls)),
 ]
